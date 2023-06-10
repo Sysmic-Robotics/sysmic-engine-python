@@ -1,0 +1,66 @@
+syntax="proto2";
+
+package UIMessages;
+
+// This is received by the UI
+message EnginePackage {
+	message Scene {
+		message Ball {
+			required float x = 1;
+			required float y = 2;
+			required float z = 3;
+		}
+
+		message Robot {
+			required uint32 id = 1;
+			required float x = 2;
+			required float y = 3;
+			required float orientation = 4;
+			optional float vel_x = 5;
+			optional float vel_y = 6;
+		}
+
+		required Ball ball = 1;
+		repeated Robot yellow_robots = 2;
+		repeated Robot blue_robots = 3;
+	}
+
+	message AIEnvironment {
+		required string name = 1;
+
+		// For AIDefault and  AITransitioning
+		message RobotDestination {
+			required uint32 id = 1;
+			required float x = 2;
+			required float y = 3;
+		}
+
+		repeated RobotDestination robot_destinations = 2;
+	}
+
+	required Scene scene = 1;
+	required AIEnvironment ai_environment = 2;
+	required uint32 fps = 3;
+}
+
+// This is received by the engine
+message Command {
+	enum CommandType {
+		START_MOVE_TO = 0;
+		CHANGE_AI_ENVIRONMENT = 1;
+	}
+
+	required CommandType command_type = 1;
+	repeated uint32 robot_ids = 2;
+
+	// START_MOVE_TO
+	message Position {
+		required float x = 1;
+		required float y = 2;
+	}
+	optional Position destination = 4;
+
+
+	// CHANGE_ENVIRONMENT
+	optional string ai_environment = 5;
+}

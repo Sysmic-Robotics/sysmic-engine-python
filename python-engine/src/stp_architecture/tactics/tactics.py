@@ -1,0 +1,2 @@
+## Definición genérica de tácticas ##
+
