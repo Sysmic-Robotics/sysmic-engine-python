@@ -2,10 +2,9 @@
 from classes.engine import Engine
 from communications.vision import Vision
 from communications.radio import Radio
+from communications.grsim import Grsim
 import argparse
 import threading
-import time
-
 
 #TODO: Agregar FPS
 
@@ -19,23 +18,35 @@ blue_team = True
 if args.team == 'y':
     blue_team = False
 
+########################################################################
+# True = simulación en grsim
+# False = Uso de radio
+########################################################################
+grsim = True
+
+if grsim:
+    radio = Grsim()
+    radio_t = threading.Thread(target=radio.comm_loop)
+    radio_t.start() 
+else:
+    radio = Radio()
+    radio_t = threading.Thread(target=radio.send_loop)
+    radio_t.start()
+
 engine = Engine()
+
 vision = Vision()
-radio = Radio()
 vision.initSocket(10020) #Socket for grSim (10020) or SSL_Vision (10006)
 vision_t = threading.Thread(target=vision.vision_loop)
 vision_t.start()
-radio_t = threading.Thread(target=radio.send_loop)
-radio_t.start()
-
 
 engine.turn_on_off() #Turn on the engine
 #engine.initSocket(10021) #10021 -> UI
 
-#define if we are team yellow or blue with a flag
 while engine.running:
     engine.test_vision()
-    engine.test_radio()
+    #engine.test_radio()
+    engine.test_grsim()
     #engine.receive_ui_packets() #función no finalizada
     '''
     if args.vision:

@@ -1,4 +1,4 @@
-from .detection import Ball, Robot
+from classes.detection import Ball, Robot
 from proto_compiled.messages_robocup_ssl_detection_pb2 import SSL_DetectionRobot as ssl_robot
 from proto_compiled import messages_robocup_ssl_wrapper_pb2 as ssl_wrapper
 from PySide6.QtNetwork import QUdpSocket, QHostAddress
