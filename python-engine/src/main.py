@@ -5,53 +5,53 @@ from communications.radio import Radio
 from communications.grsim import Grsim
 import argparse
 import threading
+import time
 
 #TODO: Agregar FPS
 
-#capura de flag de equipo (-b o -y)
-parser = argparse.ArgumentParser()
-parser.add_argument("-t", "--team", help="Team color", choices=['y', 'b'], default='b')
-parser.add_argument("-v", "--vision", help="Verbose mode", action="store_true")
+if __name__ == '__main__':
 
-args = parser.parse_args()
-blue_team = True
-if args.team == 'y':
-    blue_team = False
+    #capura de flag de equipo (-b o -y)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t", "--team", help="Team color", choices=['y', 'b'], default='b')
+    parser.add_argument("-v", "--vision", help="Verbose mode", action="store_true")
 
-########################################################################
-# True = simulación en grsim
-# False = Uso de radio
-########################################################################
-grsim = True
+    args = parser.parse_args()
+    blue_team = True
+    if args.team == 'y':
+        blue_team = False
 
-if grsim:
-    radio = Grsim()
-    radio_t = threading.Thread(target=radio.comm_loop)
-    radio_t.start() 
-else:
-    radio = Radio()
-    radio_t = threading.Thread(target=radio.send_loop)
-    radio_t.start()
+    ########################################################################
+    # True = simulación en grsim
+    # False = Uso de radio
+    ########################################################################
+    grsim = True
 
-engine = Engine()
-
-vision = Vision()
-vision.initSocket(10020) #Socket for grSim (10020) or SSL_Vision (10006)
-vision_t = threading.Thread(target=vision.vision_loop)
-vision_t.start()
-
-engine.turn_on_off() #Turn on the engine
-#engine.initSocket(10021) #10021 -> UI
-
-while engine.running:
-    engine.test_vision()
-    #engine.test_radio()
-    engine.test_grsim()
-    #engine.receive_ui_packets() #función no finalizada
-    '''
-    if args.vision:
-        #radio communication pending
-        pass
+    if grsim:
+        radio = Grsim()
+        radio_t = threading.Thread(target=radio.comm_loop)
+        radio_t.start() 
     else:
-        engine.communicate_grsim()
-    '''
+        radio = Radio()
+        radio_t = threading.Thread(target=radio.send_loop)
+        radio_t.start()
+
+    engine = Engine()
+
+    vision = Vision()
+    vision.initSocket(10020) #Socket for grSim (10020) or SSL_Vision (10006)
+    vision_t = threading.Thread(target=vision.vision_loop)
+    vision_t.start()
+
+    engine.turn_on_off() #Turn on the engine
+
+    while engine.running:
+        #engine.test_radio()
+        engine.test_grsim()
+        '''
+        if args.vision:
+            #radio communication pending
+            pass
+        else:
+            engine.communicate_grsim()
+        '''

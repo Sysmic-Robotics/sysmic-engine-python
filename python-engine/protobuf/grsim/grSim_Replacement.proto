@@ -1,18 +1,18 @@
-syntax = "proto2";
+syntax = "proto3";
 
 message grSim_RobotReplacement {
-required double x=1;
-required double y=2;
-required double dir=3;
-required uint32 id=4;
-required bool yellowteam=5;
+    double x=1;
+    double y=2;
+    double dir=3;
+    uint32 id=4;
+    bool yellowteam=5;
 }
 
 message grSim_BallReplacement {
-required double x=1;
-required double y=2;
-required double vx=3;
-required double vy=4;
+    double x=1;
+    double y=2;
+    double vx=3;
+    double vy=4;
 }
 
 message grSim_Replacement {

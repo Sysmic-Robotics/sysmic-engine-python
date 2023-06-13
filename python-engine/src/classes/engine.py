@@ -12,6 +12,7 @@ class Engine:
         self.vision_socket = QUdpSocket()
         self.ui_socket = QUdpSocket()
         self.vision = Vision()
+        self.grsim = Grsim()
 
     def initSocket(self, port_ui):
         print(self.ui_socket.bind(QHostAddress.SpecialAddress.LocalHost, port_ui)) #UI 
@@ -20,8 +21,9 @@ class Engine:
         print(self.vision.ball.posx)
 
     def test_grsim(self):
-        instance = Grsim()
-
+        self.grsim.communicate_grsim(id=0, isteamyellow=0, velangular=0.2)
+        self.grsim.communicate_grsim(id=0, isteamyellow=0, velnormal=0.1)
+        
     def test_radio(self):
         instance = Radio()
         n = 10

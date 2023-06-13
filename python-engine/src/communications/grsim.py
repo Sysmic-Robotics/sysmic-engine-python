@@ -23,22 +23,26 @@ class Grsim:
             self.communicate_grsim()
             time.sleep(0.016)
 
-    def communicate_grsim(self):
+    def communicate_grsim(self, id = 0, isteamyellow = 0, 
+                          velangular = 0, kickspeedx = 0, kickspeedz = 0,
+                          veltangent = 0, velnormal = 0, spinner = 0,
+                          wheelsspeed = 0) -> None:
+        
         package = grSim_Packet()
         command = grSim_Command()
 
-        command.id = 0
-        command.velangular = 10
-        command.kickspeedx = 0
-        command.kickspeedz = 0
-        command.veltangent = 0
-        command.velnormal = 0
-        command.spinner = 0
-        command.wheelsspeed = 0
+        command.id = id
+        command.velangular = velangular
+        command.kickspeedx = kickspeedx
+        command.kickspeedz = kickspeedz
+        command.veltangent = veltangent
+        command.velnormal = velnormal
+        command.spinner = spinner
+        command.wheelsspeed = wheelsspeed
         
         package.commands.robot_commands.append(command)
         package.commands.timestamp = 0
-        package.commands.isteamyellow = 0
+        package.commands.isteamyellow = isteamyellow
             
         data = package.SerializeToString(True)
         if data:
