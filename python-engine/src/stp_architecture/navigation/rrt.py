@@ -315,6 +315,15 @@ def smooth_path(path, smoothness, obstacles):
 
     return smoothed_path
 
+'''
+Utilización en el contexto de los robots:
+startpos = punto inicial
+endpos = objetivo
+obstaculos = todos los robots menos yo
+n_iter = 100
+radius = ver radio de robots, dejar de radius el diametro de 2 robots + epsilon (1/8 de diametro de robot)
+stepSize = 0.7 
+'''
 
 if __name__ == '__main__':
     startpos = (0., 0.)
