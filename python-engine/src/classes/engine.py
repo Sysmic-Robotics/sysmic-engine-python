@@ -21,8 +21,14 @@ class Engine:
         print(self.vision.ball.posx)
 
     def test_grsim(self):
-        self.grsim.communicate_grsim(id=0, isteamyellow=0, velangular=0.2)
-        self.grsim.communicate_grsim(id=0, isteamyellow=0, velnormal=0.1)
+        positioned = False
+
+        if not positioned:
+            self.grsim.communicate_pos_robot(id=1, yellowteam=0, x=0.8, y=-0.3, dir=180)
+            positioned = True
+        
+        self.grsim.communicate_grsim(id=1, isteamyellow=0, spinner=1)
+        self.grsim.communicate_grsim(id=0, isteamyellow=0, kickspeedx=4)
         
     def test_radio(self):
         instance = Radio()

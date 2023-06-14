@@ -32,7 +32,6 @@ class Radio:
         if not self.serial_port.is_open:
             raise ValueError("No se pudo abrir el puerto serial")
 
-
     #print data every 1 second
     def send_loop(self):
         while True:
