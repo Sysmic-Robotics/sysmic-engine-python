@@ -1,6 +1,6 @@
 import math
 import random
-from RRTMap import RRTMap
+from path_planning.rrt_map import RRTMap
 
 
 class RRTAlgorithm:

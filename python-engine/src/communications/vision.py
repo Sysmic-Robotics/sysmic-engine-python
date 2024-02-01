@@ -2,8 +2,8 @@ from classes.detection import Ball, Robot
 from proto_compiled.messages_robocup_ssl_detection_pb2 import SSL_DetectionRobot as ssl_robot
 from proto_compiled import messages_robocup_ssl_wrapper_pb2 as ssl_wrapper
 from PySide6.QtNetwork import QUdpSocket, QHostAddress
+from PySide6.QtCore import QByteArray
 import threading, time
-
 #TODO: Ver si es necesario eliminar robots
 ListPackets = list[ssl_wrapper.SSL_WrapperPacket]
 ListRobot = list[Robot]
@@ -22,10 +22,18 @@ class Vision:
         self.ball = Ball()
         self.robots_yellow = robots #Lista de robots amarillos
         self.robots_blue = robots #Lista de robots azules
-        self.vision_socket = QUdpSocket()
+        self.udp_socket = QUdpSocket()
 
-    def initSocket(self, port_ssl):
-        self.vision_socket.bind(QHostAddress.SpecialAddress.LocalHost, port_ssl)
+    def initSocket(self, multi_cast_address, port_ssl):
+        self.udp_socket.bind(QHostAddress.AnyIPv4, port_ssl)
+        self.udp_socket.joinMulticastGroup(QHostAddress(multi_cast_address))
+        self.udp_socket.readyRead.connect(self.receive_vision_packets)
+
+    def get_robots(self):
+        return self.robots_blue + self.robots_yellow 
+
+    def get_ball(self):
+        return self.ball
 
     def vision_loop(self):
         while True:
@@ -34,10 +42,9 @@ class Vision:
 
     def receive_vision_packets(self):
         packets = [] #lista de SSL_WrapperPackets   
-
-        while self.vision_socket.hasPendingDatagrams():
-            datagram = self.vision_socket.receiveDatagram()
-
+        
+        while self.udp_socket.hasPendingDatagrams():
+            datagram = self.udp_socket.receiveDatagram()
             packet = ssl_wrapper.SSL_WrapperPacket()
             if(not packet.ParseFromString(datagram.data().data())):
                 print('error')
@@ -53,14 +60,14 @@ class Vision:
         for packet in packets:
             det = packet.detection # paquete con detección desreferenciado
             #¿conviene mostrar camara_id de det.camera_id() ?
-
+            
             for ball in det.balls:
                 if ball.confidence >= self.ball.confidence:
                     self.ball.posx = ball.x
                     self.ball.posy = ball.y
                     self.ball.posz = ball.z
                     self.ball.confidence = ball.confidence
-            
+
             for robot in det.robots_blue:
                 robot_act, pos = self.get_robot_by_id(self.robots_blue, robot.robot_id)
                 if(not robot_act):
@@ -79,10 +86,10 @@ class Vision:
                     self.robots_yellow[pos] = self.update_robot(robot)
                     #self.robots_yellow[pos].frames_from_last_update -= 1
             
-        #self.print_robot(0)
 
         self.robots_blue = self.remove_robot(self.robots_blue)
         self.robots_yellow = self.remove_robot(self.robots_yellow)
+
 
     def reset_confidence(self):
         self.ball.confidence = .0

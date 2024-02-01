@@ -6,6 +6,7 @@ from communications.grsim import Grsim
 import argparse
 import threading
 import time
+from path_planning.path_planning import PathPlanning
 
 #TODO: Agregar FPS
 
@@ -28,22 +29,26 @@ if __name__ == '__main__':
     grsim = True
 
     if grsim:
-        radio = Grsim()
-        radio_t = threading.Thread(target=radio.comm_loop)
-        radio_t.start() 
+        #radio = Grsim()
+        #radio_t = threading.Thread(target=radio.comm_loop)
+        #radio_t.start() 
+        pass
     else:
-        radio = Radio()
-        radio_t = threading.Thread(target=radio.send_loop)
-        radio_t.start()
-
-    engine = Engine()
+        #radio = Radio()
+        #radio_t = threading.Thread(target=radio.send_loop)
+        #radio_t.start()
+        pass
 
     vision = Vision()
-    vision.initSocket(10020) #Socket for grSim (10020) or SSL_Vision (10006)
+    vision.initSocket("224.5.23.2", 10020) #Socket for grSim (10020) or SSL_Vision (10006)
     vision_t = threading.Thread(target=vision.vision_loop)
     vision_t.start()
 
-    engine.turn_on_off() #Turn on the engine
+    path_planning = PathPlanning(vision)
+
+    
+
+    engine = Engine(vision)
 
     while engine.running:
         #engine.test_radio()

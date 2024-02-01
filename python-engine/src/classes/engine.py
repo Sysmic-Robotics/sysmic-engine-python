@@ -7,26 +7,21 @@ from communications.grsim import Grsim
 
 class Engine:
 
-    def __init__(self):
-        self.running = False
+    def __init__(self, vision):
+        self.running = True
         self.vision_socket = QUdpSocket()
         self.ui_socket = QUdpSocket()
-        self.vision = Vision()
+        self.vision = vision
         self.grsim = Grsim()
 
     def initSocket(self, port_ui):
-        print(self.ui_socket.bind(QHostAddress.SpecialAddress.LocalHost, port_ui)) #UI 
+        self.ui_socket.bind(QHostAddress.SpecialAddress.LocalHost, port_ui) #UI 
 
     def test_vision(self):
         print(self.vision.ball.posx)
 
     def test_grsim(self):
-        positioned = False
-
-        if not positioned:
-            self.grsim.communicate_pos_robot(id=1, yellowteam=0, x=0.8, y=-0.3, dir=180)
-            positioned = True
-        
+        self.grsim.communicate_pos_robot(id=1, yellowteam=0, x=200, y=100, dir=180)
         self.grsim.communicate_grsim(id=1, isteamyellow=0, spinner=1)
         self.grsim.communicate_grsim(id=0, isteamyellow=0, kickspeedx=4)
         
