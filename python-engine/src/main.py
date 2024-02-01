@@ -6,7 +6,7 @@ from communications.grsim import Grsim
 import argparse
 import threading
 import time
-from path_planning.path_planning import PathPlanning
+from stp_architecture.stp_manager import STP
 
 #TODO: Agregar FPS
 
@@ -43,11 +43,10 @@ if __name__ == '__main__':
     vision.initSocket("224.5.23.2", 10020) #Socket for grSim (10020) or SSL_Vision (10006)
     vision_t = threading.Thread(target=vision.vision_loop)
     vision_t.start()
-
-    path_planning = PathPlanning(vision)
-
+    # Initialize grsim packets
+    #radio = Grsim()
+    #radio.communicate_grsim(id=1, isteamyellow=0, spinner=1, velnormal=2)
     
-
     engine = Engine(vision)
 
     while engine.running:

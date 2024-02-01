@@ -20,8 +20,7 @@ class Vision:
 
     def __init__(self, robots: ListRobot = []):
         self.ball = Ball()
-        self.robots_yellow = robots #Lista de robots amarillos
-        self.robots_blue = robots #Lista de robots azules
+        self.robots = {}
         self.udp_socket = QUdpSocket()
 
     def initSocket(self, multi_cast_address, port_ssl):
@@ -30,7 +29,7 @@ class Vision:
         self.udp_socket.readyRead.connect(self.receive_vision_packets)
 
     def get_robots(self):
-        return self.robots_blue + self.robots_yellow 
+        return self.robots.values()
 
     def get_ball(self):
         return self.ball
@@ -41,8 +40,7 @@ class Vision:
             time.sleep(.016)
 
     def receive_vision_packets(self):
-        packets = [] #lista de SSL_WrapperPackets   
-        
+        packets = [] #lista de SSL_WrapperPackets
         while self.udp_socket.hasPendingDatagrams():
             datagram = self.udp_socket.receiveDatagram()
             packet = ssl_wrapper.SSL_WrapperPacket()
@@ -68,72 +66,54 @@ class Vision:
                     self.ball.posz = ball.z
                     self.ball.confidence = ball.confidence
 
-            for robot in det.robots_blue:
-                robot_act, pos = self.get_robot_by_id(self.robots_blue, robot.robot_id)
+            n_robots_blue = len(det.robots_blue)
+            robots = det.robots_yellow
+            robots.extend(det.robots_blue)
+            team_id = 0 # Yellow
+            i = 0
+            #clean_deprecated_robots()
+            for robot in robots:
+                if(i > n_robots_blue - 1):
+                    team = 1
+                robot_act = self.get_robot_by_id(robot.robot_id)
                 if(not robot_act):
-                    new_robot = self.create_robot(robot)
-                    self.robots_blue.append(new_robot)
+                    new_robot = self.create_robot(robot, team_id)
+                    self.robots[robot.robot_id] = new_robot
                 elif(robot_act.confidence <= robot.confidence):
-                    self.robots_blue[pos] = self.update_robot(robot)
-                    #self.robots_yellow[pos].frames_from_last_update -= 1
-
-            for robot in det.robots_yellow:
-                robot_act, pos = self.get_robot_by_id(self.robots_yellow, robot.robot_id)
-                if(not robot_act):
-                    new_robot = self.create_robot(robot)
-                    self.robots_yellow.append(new_robot)
-                elif(robot_act.confidence <= robot.confidence):
-                    self.robots_yellow[pos] = self.update_robot(robot)
-                    #self.robots_yellow[pos].frames_from_last_update -= 1
-            
-
-        self.robots_blue = self.remove_robot(self.robots_blue)
-        self.robots_yellow = self.remove_robot(self.robots_yellow)
-
+                    self.update_robot(robot, robot.robot_id)
+                i += 1    
 
     def reset_confidence(self):
         self.ball.confidence = .0
+        for id in self.robots:
+            self.robots[id].confidence = .0
 
-        for robot in self.robots_blue:
-            robot.confidence = .0
-
-        for robot in self.robots_yellow:
-            robot.confidence = .0
-    
     # Entrega el robot y la posición de este
-    def get_robot_by_id(self, robots: ListRobot, id: int):
-        i = 0
-        for robot in robots:
-            if robot.id == id:
-                return robot, i
-            i += 1
-        return None, 0
+    def get_robot_by_id(self, id: int):
+        if( id in self.robots ):
+            return self.robots[id]
+        return None
     
-    def create_robot(self, robot: ssl_robot):
+    def create_robot(self, robot: ssl_robot, team_id):
         new_robot = Robot()
         new_robot.confidence = robot.confidence
         new_robot.id = robot.robot_id
         new_robot.posx = robot.x
         new_robot.posy = robot.y
         new_robot.orientation = robot.orientation
+        new_robot.team_id = team_id
         return new_robot
 
-    def update_robot(self, robot: ssl_robot):
-        new_robot = Robot()
+    def update_robot(self, robot: ssl_robot, id : int):
+        new_robot = self.robots[id]
         new_robot.confidence = robot.confidence
         new_robot.posx = robot.x
         new_robot.posy = robot.y
         new_robot.orientation = robot.orientation
         return new_robot
     
-    def remove_robot(self, robots: ListRobot):
-        new_robots = []
-        i = 0
-        for robot in robots:
-            if robot.frames_from_last_update <= 3:
-                new_robots.append(robot)
-            i += 1
-        return new_robots
+    def clean_outdated_robots(self):
+        pass
     
     def print_robot(self, index):
         print(self.robots_blue[index].posx,

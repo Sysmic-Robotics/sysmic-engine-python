@@ -21,7 +21,7 @@ class Robot:
         self.posy = .0 #mm
         self.orientation = .0 #rad
         #equipo al que pertenece
-        self.team = 0 #0 para amarillo, 1 para azul
+        self.team_id = 0 #0 para amarillo, 1 para azul
 
         #veracidad de los datos recibidos
         self.confidence = .0
