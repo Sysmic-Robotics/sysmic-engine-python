@@ -54,3 +54,6 @@ docs/_build/
 
 # Virtual envirionment
 python-engine/engine-env
+
+#Algo commander
+algo_commander/build

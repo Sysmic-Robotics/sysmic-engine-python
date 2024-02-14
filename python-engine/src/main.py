@@ -7,6 +7,7 @@ import argparse
 import threading
 import time
 from stp_architecture.stp_manager import STP
+from communications.algo_commander import AlgoCommander
 
 #TODO: Agregar FPS
 
@@ -22,35 +23,25 @@ if __name__ == '__main__':
     if args.team == 'y':
         blue_team = False
 
-    ########################################################################
-    # True = simulación en grsim
-    # False = Uso de radio
-    ########################################################################
-    grsim = True
-
-    if grsim:
-        #radio = Grsim()
-        #radio_t = threading.Thread(target=radio.comm_loop)
-        #radio_t.start() 
-        pass
-    else:
-        #radio = Radio()
-        #radio_t = threading.Thread(target=radio.send_loop)
-        #radio_t.start()
-        pass
-
     vision = Vision()
     vision.initSocket("224.5.23.2", 10020) #Socket for grSim (10020) or SSL_Vision (10006)
     vision_t = threading.Thread(target=vision.vision_loop)
     vision_t.start()
+
     # Initialize grsim packets
     #radio = Grsim()
     #radio.communicate_grsim(id=1, isteamyellow=0, spinner=1, velnormal=2)
     
-    engine = Engine(vision)
+    stp = STP(vision)
+
+    engine = Engine(vision, stp)
+    
+    # Algo Commander: Visualization system
+    algo_commander = AlgoCommander(12345, vision)
+    algo_commander_t = threading.Thread(target=algo_commander.update)
+    algo_commander_t.start()
 
     while engine.running:
-        #engine.test_radio()
         engine.test_grsim()
         '''
         if args.vision:

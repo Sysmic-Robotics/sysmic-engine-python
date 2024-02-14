@@ -7,12 +7,13 @@ from communications.grsim import Grsim
 
 class Engine:
 
-    def __init__(self, vision):
+    def __init__(self, vision, stp):
         self.running = True
         self.vision_socket = QUdpSocket()
         self.ui_socket = QUdpSocket()
         self.vision = vision
         self.grsim = Grsim()
+        self.stp = stp
 
     def initSocket(self, port_ui):
         self.ui_socket.bind(QHostAddress.SpecialAddress.LocalHost, port_ui) #UI 
@@ -21,9 +22,8 @@ class Engine:
         print(self.vision.ball.posx)
 
     def test_grsim(self):
-        self.grsim.communicate_pos_robot(id=1, yellowteam=0, x=200, y=100, dir=180)
-        self.grsim.communicate_grsim(id=1, isteamyellow=0, spinner=1)
-        self.grsim.communicate_grsim(id=0, isteamyellow=0, kickspeedx=4)
+        if(self.vision.robot_exist("b01")):
+            self.stp.go_to_pos(self.vision.get_robot("b01") , (0,0))
         
     def test_radio(self):
         instance = Radio()
