@@ -6,9 +6,9 @@ class PathPlanning:
         self.vision = vision
 
     def get_path(self, point_from, point_to):
-        offset = (8940/2 , 6662/2)
-        map_h = 6662
-        map_w = 8940
+        map_h = 6000 # In cm
+        map_w = 9000 # In cm
+        offset = (map_w/2 , map_h/2) 
         point_from =  point_from[0]  + offset[0], point_from[1]  + offset[1]
         point_to = point_to[0]  + offset[0], point_to[1]  + offset[1]
         rtt = RRTAlgorithm()
