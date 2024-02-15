@@ -20,8 +20,7 @@ class Vision:
 
     def __init__(self, robots: ListRobot = []):
         self.ball = Ball()
-        self.robots_yellow = robots #Lista de robots amarillos
-        self.robots_blue = robots #Lista de robots azules
+        self.robots = {}
         self.udp_socket = QUdpSocket()
 
     def initSocket(self, multi_cast_address, port_ssl):
@@ -30,7 +29,9 @@ class Vision:
         self.udp_socket.readyRead.connect(self.receive_vision_packets)
 
     def get_robots(self):
-        return self.robots_blue + self.robots_yellow 
+       # for robot in self.robots.values():
+       #     print({"id ": robot.id , "team_id" : robot.team_id} )
+        return self.robots.values()
 
     def get_ball(self):
         return self.ball
@@ -50,7 +51,6 @@ class Vision:
                 print('error')
             else:
                 packets.append(packet)
-        
         if len(packets) > 0:
             self.update(packets)
 
@@ -67,64 +67,76 @@ class Vision:
                     self.ball.posy = ball.y
                     self.ball.posz = ball.z
                     self.ball.confidence = ball.confidence
-
-            for robot in det.robots_blue:
-                robot_act, pos = self.get_robot_by_id(self.robots_blue, robot.robot_id)
-                if(not robot_act):
-                    new_robot = self.create_robot(robot)
-                    self.robots_blue.append(new_robot)
-                elif(robot_act.confidence <= robot.confidence):
-                    self.robots_blue[pos] = self.update_robot(robot)
-                    #self.robots_yellow[pos].frames_from_last_update -= 1
-
-            for robot in det.robots_yellow:
-                robot_act, pos = self.get_robot_by_id(self.robots_yellow, robot.robot_id)
-                if(not robot_act):
-                    new_robot = self.create_robot(robot)
-                    self.robots_yellow.append(new_robot)
-                elif(robot_act.confidence <= robot.confidence):
-                    self.robots_yellow[pos] = self.update_robot(robot)
-                    #self.robots_yellow[pos].frames_from_last_update -= 1
             
+            for robot_data in det.robots_blue:
+                robot_code = self.get_robot_code(robot_data.robot_id, "blue")
+                if( self.robot_exist(robot_code) ):
+                    self.update_robot(robot_data, robot_code)
+                else:
+                    new_robot = self.create_robot(robot_data, 1)
+                    self.robots[robot_code] = new_robot 
+            for robot_data in det.robots_yellow:
+                robot_code = self.get_robot_code(robot_data.robot_id, "yellow")
+                if( self.robot_exist(robot_code) ):
+                    self.update_robot(robot_data, robot_code)
+                else:
+                    new_robot = self.create_robot(robot_data, 0)
+                    self.robots[robot_code] = new_robot 
 
-        self.robots_blue = self.remove_robot(self.robots_blue)
-        self.robots_yellow = self.remove_robot(self.robots_yellow)
+
+    def create_robot(self, robot_data: ssl_robot, team_id : int):
+        new_robot = Robot()
+        new_robot.team_id = team_id
+        new_robot.confidence = robot_data.confidence
+        new_robot.id = robot_data.robot_id
+        new_robot.posx = robot_data.x
+        new_robot.posy = robot_data.y
+        new_robot.orientation = robot_data.orientation
+        return new_robot
+
+    def get_robot_code(self, robot_id : int, team : str) -> str:
+        code = "y"
+        if team == "blue":
+            code = "b"
+        num_zeros = 2 - len(str(robot_id))
+        code = code + '0' * num_zeros + str(robot_id)
+        return code
 
 
+    def robot_exist(self, code : str) -> bool:
+        if (code in self.robots):
+            return True
+        return False
+
+    def get_robot(self, robot_code):
+        return self.robots[robot_code]
+
+    
     def reset_confidence(self):
         self.ball.confidence = .0
-
-        for robot in self.robots_blue:
-            robot.confidence = .0
-
-        for robot in self.robots_yellow:
+        for robot in self.get_robots():
             robot.confidence = .0
     
+
     # Entrega el robot y la posición de este
-    def get_robot_by_id(self, robots: ListRobot, id: int):
-        i = 0
-        for robot in robots:
-            if robot.id == id:
-                return robot, i
-            i += 1
-        return None, 0
+    def get_robot_by_id(self, id: int, team_id : str):
+        robot = None
+        if(team_id == "blue"):
+            for robot in self.robots_yellow:
+                if robot.id == id:
+                    return robot
+        elif(team_id == "yellow"):
+            for robot in self.robots_blue:
+                if robot.id == id:
+                    return robot    
+        return robot
     
-    def create_robot(self, robot: ssl_robot):
-        new_robot = Robot()
-        new_robot.confidence = robot.confidence
-        new_robot.id = robot.robot_id
-        new_robot.posx = robot.x
-        new_robot.posy = robot.y
-        new_robot.orientation = robot.orientation
-        return new_robot
+    def update_robot(self, new_data: ssl_robot, robot_hash : str):
+        self.robots[robot_hash].confidence = new_data.confidence
+        self.robots[robot_hash].posx = new_data.x
+        self.robots[robot_hash].posy = new_data.y
+        self.robots[robot_hash].orientation = new_data.orientation
 
-    def update_robot(self, robot: ssl_robot):
-        new_robot = Robot()
-        new_robot.confidence = robot.confidence
-        new_robot.posx = robot.x
-        new_robot.posy = robot.y
-        new_robot.orientation = robot.orientation
-        return new_robot
     
     def remove_robot(self, robots: ListRobot):
         new_robots = []
@@ -134,8 +146,3 @@ class Vision:
                 new_robots.append(robot)
             i += 1
         return new_robots
-    
-    def print_robot(self, index):
-        print(self.robots_blue[index].posx,
-              self.robots_blue[index].posy,
-              self.robots_blue[index].orientation)
