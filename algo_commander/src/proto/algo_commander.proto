@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package algo_commander;
+
+message RobotPosition {
+    int32 id = 1;
+    float pos_x = 2;
+    float pos_y = 3;
+    float angle = 4;
+    bool blue_team = 5;
+}
+
+message Vector2f {
+    float x = 1;
+    float y = 2;
+}
+
+message Route {
+    repeated Vector2f points = 1;
+    int32 robot_id = 2;
+    bool blue_team = 3;
+}
+
+message WrapperMessage {
+    int64 commonField = 1;
+    oneof msg {
+        RobotPosition robot_position = 2;
+        Route route = 3;
+    }   
+}
