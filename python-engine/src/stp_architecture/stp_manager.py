@@ -12,10 +12,13 @@ class STP:
         self.vision = vision
         self.algo_commander = algo_commander
 
-    def normalize_2d_vector(self, x,y):
-        if abs(x) < 0.001 or abs(y) < 0.001:
-            return (0,0)
-        return (x / ((x**2 + y**2)**0.5), y / ((x**2 + y**2)**0.5))
+    def normalize_2d_vector(self, x,y) -> tuple[float, float]:
+        length = math.sqrt(x**2 + y**2)
+        if length != 0:
+            normalized_x = x / length
+            normalized_y = y / length
+            return normalized_x, normalized_y
+        return 0, 0
 
 
     def follow_path(self, robot: Robot, path : tuple[float,float]) -> None:
@@ -24,14 +27,12 @@ class STP:
         radio = Grsim()
         while len(path) > 0:
             vel_dir = (current_goal[0] - robot.posx, current_goal[1] - robot.posy ) 
-            final_vel = self.normalize_2d_vector(vel_dir[0],vel_dir[1])
-            final_vel = final_vel[0], final_vel[1]
+            final_vel : tuple[float, float] = self.normalize_2d_vector(vel_dir[0],vel_dir[1])
             #Convert to robot local coordinates
             angle = -robot.orientation 
             x = final_vel[0]* math.cos(angle) -  final_vel[1]* math.sin(angle)
             y = final_vel[0]* math.sin(angle) + final_vel[1]* math.cos(angle)
             changed_number = 0 if robot.team_id == 1 else 1
-
             radio.communicate_grsim( robot.id, changed_number, veltangent = x , velnormal = y  )
             distance_f = lambda x1, y1, x2, y2: ((x1 - x2)**2 + (y1 - y2)**2)**0.5
             distance_to_goal = distance_f( robot.posx, robot.posy, current_goal[0], current_goal[1] )

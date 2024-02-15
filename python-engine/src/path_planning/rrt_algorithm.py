@@ -32,7 +32,7 @@ class RRTAlgorithm:
         self.edges = []
 
         #Initial config
-        self.max_step = 300
+        self.max_step = 200
         # Compute path
         K = 800
         goal_reached = False

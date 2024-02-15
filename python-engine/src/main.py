@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
     # Initialize grsim packets
     radio = Grsim()
-    #radio.communicate_grsim(id=1, isteamyellow=0, spinner=1, velnormal=2)
+    radio.communicate_grsim(id=1, isteamyellow=0, spinner=1, velnormal=2)
     
     
     # Algo Commander: Visualization system
@@ -50,6 +50,7 @@ if __name__ == '__main__':
     robot : Robot = vision.get_robot(code)
     path_planning : PathPlanning = PathPlanning(vision)
     path : tuple[float, float] = path_planning.get_path( (robot.posx,robot.posy) , (0,0) )
+    
     stp.follow_path(robot , path)
     while engine.running:
         break
