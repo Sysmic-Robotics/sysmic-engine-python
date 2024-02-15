@@ -44,7 +44,7 @@ if __name__ == '__main__':
 
     # Test path planning
 
-    radio.communicate_pos_robot(id=0, yellowteam=0 ,x = -4.000, y= 0)
+    radio.communicate_pos_robot(id=0, yellowteam=0 ,x = 4.000, y= 0)
     time.sleep(1) # Wait for vision to start get data
     code = vision.get_robot_code(0, "blue")
     robot : Robot = vision.get_robot(code)
