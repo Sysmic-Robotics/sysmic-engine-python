@@ -22,7 +22,6 @@ class STP:
 
 
     def follow_path(self, robot: Robot, path : tuple[float,float]) -> None:
-        self.algo_commander.send_route( 0, True, path ) 
         current_goal = path.pop()
         radio = Grsim()
         while len(path) > 0:
