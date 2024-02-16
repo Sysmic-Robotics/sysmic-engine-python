@@ -57,7 +57,6 @@ class PacketHandler{
                 std::vector<float> local_coords = convert_to_local_coords(m1.pos_x(), m1.pos_y() );
                 robot_handler->set_robot_pos(m1.id(), local_coords[0], local_coords[1], m1.angle() ,m1.blue_team() );
             }else if (wrapper.has_route()) {
-                std::cout<< "llego rut" << std::endl;
                 const algo_commander::Route& m2 = wrapper.route();
                 std::vector<sf::Vector2f> pointsVector;
                 for (const auto& point : m2.points()) {
