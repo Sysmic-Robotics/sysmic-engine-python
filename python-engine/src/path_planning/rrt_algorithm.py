@@ -27,7 +27,7 @@ class RRTAlgorithm:
         self.start = start
         self.goal = goal
         self.map = map
-
+            
         self.nodes = [ ( start, 0) ]
         self.edges = []
 

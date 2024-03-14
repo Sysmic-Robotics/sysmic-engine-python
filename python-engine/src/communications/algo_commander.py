@@ -1,24 +1,44 @@
 import socket
 import proto_compiled.algo_commander_pb2 as algo_commander_pb2
+from PySide6.QtNetwork import QUdpSocket,  QHostAddress
 from communications.vision import Vision
 import time
 
 class AlgoCommander:
-    def __init__(self, port, vision ) -> None:
+    def __init__(self, port, vision) -> None:
         self.host = '127.0.0.1'  # Change this to your desired destination IP address
         self.port = port        # Change this to your desired destination port number
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.vision = vision
 
+        self.server_socket = QUdpSocket()
+        #self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.server_socket.bind(QHostAddress.LocalHost, 5656)
+        self.server_socket.readyRead.connect(self.receive_packets)
+
     def update(self):
         while True:
-            robots = self.vision.get_robots()
+            robots = []#self.vision.get_robots()
             for robot in robots:
                 if(robot != None):
                     blue_team = robot.team_id == 1
                     self.send_robot_position(robot.id, robot.posx, robot.posy, robot.orientation, blue_team)
             time.sleep(0.02)    
 
+    def receive_packets(self):
+        print("receving udp")
+        while self.server_socket.hasPendingDatagrams():
+            print("packet receving")
+            datagram = self.udp_socket.receiveDatagram()
+            packets = []
+            packet = algo_commander_pb2.RequestPath()
+            if(not packet.ParseFromString(datagram.data().data() )):
+                print('error')
+            else:
+                packets.append(packet)
+            if len(packets) > 0:
+                self.update(packets)
+       
     def send_robot_position(self, robot_id, pos_x, pos_y, angle, blue_team):
         wrapper = algo_commander_pb2.WrapperMessage()
         wrapper.commonField = 0
@@ -56,6 +76,6 @@ class AlgoCommander:
             self.socket.sendto(serialized_data, (self.host, self.port))
         finally:
             pass  
-
+    
     def __del__(self):
         self.socket.close()       

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x14\x61lgo_commander.proto\x12\x0e\x61lgo_commander\"[\n\rRobotPosition\x12\n\n\x02id\x18\x01 \x01(\x05\x12\r\n\x05pos_x\x18\x02 \x01(\x02\x12\r\n\x05pos_y\x18\x03 \x01(\x02\x12\r\n\x05\x61ngle\x18\x04 \x01(\x02\x12\x11\n\tblue_team\x18\x05 \x01(\x08\" \n\x08Vector2f\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\"V\n\x05Route\x12(\n\x06points\x18\x01 \x03(\x0b\x32\x18.algo_commander.Vector2f\x12\x10\n\x08robot_id\x18\x02 \x01(\x05\x12\x11\n\tblue_team\x18\x03 \x01(\x08\"\x8d\x01\n\x0eWrapperMessage\x12\x13\n\x0b\x63ommonField\x18\x01 \x01(\x03\x12\x37\n\x0erobot_position\x18\x02 \x01(\x0b\x32\x1d.algo_commander.RobotPositionH\x00\x12&\n\x05route\x18\x03 \x01(\x0b\x32\x15.algo_commander.RouteH\x00\x42\x05\n\x03msgb\x06proto3'
+  serialized_pb=b'\n\x14\x61lgo_commander.proto\x12\x0e\x61lgo_commander\"[\n\rRobotPosition\x12\n\n\x02id\x18\x01 \x01(\x05\x12\r\n\x05pos_x\x18\x02 \x01(\x02\x12\r\n\x05pos_y\x18\x03 \x01(\x02\x12\r\n\x05\x61ngle\x18\x04 \x01(\x02\x12\x11\n\tblue_team\x18\x05 \x01(\x08\" \n\x08Vector2f\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\"V\n\x05Route\x12(\n\x06points\x18\x01 \x03(\x0b\x32\x18.algo_commander.Vector2f\x12\x10\n\x08robot_id\x18\x02 \x01(\x05\x12\x11\n\tblue_team\x18\x03 \x01(\x08\"g\n\x0bRequestPath\x12,\n\nfrom_point\x18\x01 \x01(\x0b\x32\x18.algo_commander.Vector2f\x12*\n\x08to_point\x18\x02 \x01(\x0b\x32\x18.algo_commander.Vector2f\"\x8d\x01\n\x0eWrapperMessage\x12\x13\n\x0b\x63ommonField\x18\x01 \x01(\x03\x12\x37\n\x0erobot_position\x18\x02 \x01(\x0b\x32\x1d.algo_commander.RobotPositionH\x00\x12&\n\x05route\x18\x03 \x01(\x0b\x32\x15.algo_commander.RouteH\x00\x42\x05\n\x03msgb\x06proto3'
 )
 
 
@@ -170,6 +170,45 @@ _ROUTE = _descriptor.Descriptor(
 )
 
 
+_REQUESTPATH = _descriptor.Descriptor(
+  name='RequestPath',
+  full_name='algo_commander.RequestPath',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='from_point', full_name='algo_commander.RequestPath.from_point', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='to_point', full_name='algo_commander.RequestPath.to_point', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=255,
+  serialized_end=358,
+)
+
+
 _WRAPPERMESSAGE = _descriptor.Descriptor(
   name='WrapperMessage',
   full_name='algo_commander.WrapperMessage',
@@ -216,11 +255,13 @@ _WRAPPERMESSAGE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=256,
-  serialized_end=397,
+  serialized_start=361,
+  serialized_end=502,
 )
 
 _ROUTE.fields_by_name['points'].message_type = _VECTOR2F
+_REQUESTPATH.fields_by_name['from_point'].message_type = _VECTOR2F
+_REQUESTPATH.fields_by_name['to_point'].message_type = _VECTOR2F
 _WRAPPERMESSAGE.fields_by_name['robot_position'].message_type = _ROBOTPOSITION
 _WRAPPERMESSAGE.fields_by_name['route'].message_type = _ROUTE
 _WRAPPERMESSAGE.oneofs_by_name['msg'].fields.append(
@@ -232,6 +273,7 @@ _WRAPPERMESSAGE.fields_by_name['route'].containing_oneof = _WRAPPERMESSAGE.oneof
 DESCRIPTOR.message_types_by_name['RobotPosition'] = _ROBOTPOSITION
 DESCRIPTOR.message_types_by_name['Vector2f'] = _VECTOR2F
 DESCRIPTOR.message_types_by_name['Route'] = _ROUTE
+DESCRIPTOR.message_types_by_name['RequestPath'] = _REQUESTPATH
 DESCRIPTOR.message_types_by_name['WrapperMessage'] = _WRAPPERMESSAGE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -255,6 +297,13 @@ Route = _reflection.GeneratedProtocolMessageType('Route', (_message.Message,), {
   # @@protoc_insertion_point(class_scope:algo_commander.Route)
   })
 _sym_db.RegisterMessage(Route)
+
+RequestPath = _reflection.GeneratedProtocolMessageType('RequestPath', (_message.Message,), {
+  'DESCRIPTOR' : _REQUESTPATH,
+  '__module__' : 'algo_commander_pb2'
+  # @@protoc_insertion_point(class_scope:algo_commander.RequestPath)
+  })
+_sym_db.RegisterMessage(RequestPath)
 
 WrapperMessage = _reflection.GeneratedProtocolMessageType('WrapperMessage', (_message.Message,), {
   'DESCRIPTOR' : _WRAPPERMESSAGE,
