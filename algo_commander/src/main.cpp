@@ -15,7 +15,7 @@
 
 // Main loop
 int main(){
-    sf::RenderWindow window =  sf::RenderWindow (sf::VideoMode(config::window_wide + 300, config::window_long), "Robocup SSL");
+    sf::RenderWindow window(sf::VideoMode(config::window_wide + 300, config::window_long), "Robocup SSL");
     sf::View sim_view( sf::Vector2f(config::window_wide/2, config::window_long/2), sf::Vector2f(config::window_wide, config::window_long));
     sim_view.setViewport(sf::FloatRect(0.0f, 0.0, 0.8f, 1.0f));
     PacketReceiver packet_listener(12345);
