@@ -13,31 +13,37 @@ class AlgoCommander:
 
         self.server_socket = QUdpSocket()
         #self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.server_socket.bind(QHostAddress.LocalHost, 5656)
+        self.server_socket.bind(QHostAddress.AnyIPv4, 5656)
         self.server_socket.readyRead.connect(self.receive_packets)
+        print("receiving packet init")
 
     def update(self):
         while True:
-            robots = []#self.vision.get_robots()
+            self.receive_packets()
+            robots = self.vision.get_robots()
             for robot in robots:
                 if(robot != None):
                     blue_team = robot.team_id == 1
                     self.send_robot_position(robot.id, robot.posx, robot.posy, robot.orientation, blue_team)
-            time.sleep(0.02)    
+            time.sleep(0.016)    
 
     def receive_packets(self):
-        print("receving udp")
         while self.server_socket.hasPendingDatagrams():
             print("packet receving")
-            datagram = self.udp_socket.receiveDatagram()
+            datagram = self.server_socket.receiveDatagram()
             packets = []
             packet = algo_commander_pb2.RequestPath()
-            if(not packet.ParseFromString(datagram.data().data() )):
+            print( datagram.data().data() )
+            packet.ParseFromString( datagram.data().data()  )
+            if(not packet):
                 print('error')
             else:
+                #receive_request_route(packet)
                 packets.append(packet)
-            if len(packets) > 0:
-                self.update(packets)
+    
+    def receive_request_route(self, packet):
+        pass
+
        
     def send_robot_position(self, robot_id, pos_x, pos_y, angle, blue_team):
         wrapper = algo_commander_pb2.WrapperMessage()
@@ -78,4 +84,4 @@ class AlgoCommander:
             pass  
     
     def __del__(self):
-        self.socket.close()       
+        self.socket.close()   

@@ -26,7 +26,7 @@ class Vision:
     def initSocket(self, multi_cast_address, port_ssl):
         self.udp_socket.bind(QHostAddress.AnyIPv4, port_ssl)
         self.udp_socket.joinMulticastGroup(QHostAddress(multi_cast_address))
-        self.udp_socket.readyRead.connect(self.receive_vision_packets)
+        #self.udp_socket.readyRead.connect(self.receive_vision_packets)
 
     def get_robots(self):
        # for robot in self.robots.values():

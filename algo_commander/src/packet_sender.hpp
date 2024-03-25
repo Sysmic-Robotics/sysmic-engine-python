@@ -41,11 +41,13 @@ class PacketSender {
 
 
         bool send_packet(std::string packet) {
-            sf::Socket::Status result = m_socket.send(&packet, packet.size(), sf::IpAddress::getLocalAddress(), m_port);
+            sf::Socket::Status result = m_socket.send(packet.c_str(), packet.size(), sf::IpAddress::getLocalAddress(), 5656);
+
             if (result != sf::Socket::Done) {
                 std::cerr << "Failed to send packet" << std::endl;
                 return false;
             }
+
             return true;
         }
 };
