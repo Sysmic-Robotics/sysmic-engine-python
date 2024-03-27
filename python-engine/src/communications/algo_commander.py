@@ -1,6 +1,7 @@
 import socket
 import proto_compiled.algo_commander_pb2 as algo_commander_pb2
 from PySide6.QtNetwork import QUdpSocket,  QHostAddress
+from path_planning.path_planning import PathPlanning
 from communications.vision import Vision
 import time
 
@@ -29,22 +30,26 @@ class AlgoCommander:
 
     def receive_packets(self):
         while self.server_socket.hasPendingDatagrams():
-            print("packet receving")
+ 
             datagram = self.server_socket.receiveDatagram()
             packets = []
             packet = algo_commander_pb2.RequestPath()
-            print( datagram.data().data() )
+            
             packet.ParseFromString( datagram.data().data()  )
             if(not packet):
                 print('error')
             else:
-                #receive_request_route(packet)
+                self.receive_request_route(packet)
                 packets.append(packet)
     
-    def receive_request_route(self, packet):
-        pass
+    def receive_request_route(self, request_path : algo_commander_pb2.RequestPath):
+        from_point = (request_path.from_point.x, request_path.from_point.y)
+        to_point = (request_path.to_point.x, request_path.to_point.y) 
+        print(from_point, to_point)
+        path_planning = PathPlanning(self.vision)
+        self.send_route(0, True,path_planning.get_path(from_point, to_point))
 
-       
+ 
     def send_robot_position(self, robot_id, pos_x, pos_y, angle, blue_team):
         wrapper = algo_commander_pb2.WrapperMessage()
         wrapper.commonField = 0
