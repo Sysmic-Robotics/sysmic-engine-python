@@ -9,7 +9,7 @@ import threading
 import time
 from stp_architecture.stp_manager import STP
 from communications.algo_commander import AlgoCommander
-from path_planning.path_planning import PathPlanning
+
 #TODO: Agregar FPS
 
 if __name__ == '__main__':
