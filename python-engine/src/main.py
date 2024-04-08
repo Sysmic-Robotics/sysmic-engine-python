@@ -46,12 +46,14 @@ if __name__ == '__main__':
 
     radio.communicate_pos_robot(id=0, yellowteam=0 ,x = 4.000, y= 0)
     time.sleep(1) # Wait for vision to start get data
-    code = vision.get_robot_code(0, "blue")
-    #robot : Robot = vision.get_robot(code)
-    #path_planning : PathPlanning = PathPlanning(vision)
-    #path : tuple[float, float] = path_planning.get_path( (robot.posx,robot.posy) , (0,0) )
     
-    #stp.follow_path(robot , path)
+    code = vision.get_robot_code(0, "blue")
+    robot : Robot = vision.get_robot(code)
+    path_planning : PathPlanning = PathPlanning(vision)
+    path : tuple[float, float] = path_planning.get_path( (robot.posx,robot.posy) , (0,0) )
+    algo_commander.send_route( 0, True, path ) 
+
+    stp.follow_path(robot , path)
     while engine.running:
         break
     #    engine.test_grsim()
