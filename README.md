@@ -66,7 +66,7 @@ cd build
 cmake ..
 ```
 
-### 3.3 Running the engine
+### 3.3 Running the GUI
 
 Inside build folder, run this:
 
