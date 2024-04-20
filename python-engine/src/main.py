@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
     # Initialize grsim packets
     radio = Grsim()
-    radio.communicate_grsim(id=1, isteamyellow=0, spinner=1, velnormal=2)
+    #radio.communicate_grsim(id=1, isteamyellow=0, spinner=1, velnormal=2)
     
     
     # Algo Commander: Visualization system
@@ -44,10 +44,25 @@ if __name__ == '__main__':
 
     # Test path planning
 
-    radio.communicate_pos_robot(id=0, yellowteam=0 ,x = 4.000, y= 0)
+    #radio.communicate_pos_robot(id=0, yellowteam=0 ,x = -1.500, y= 0)
     time.sleep(1) # Wait for vision to start get data
     code = vision.get_robot_code(0, "blue")
-    #robot : Robot = vision.get_robot(code)
+    #radio.communicate_grsim(id = 1, isteamyellow = 0, 
+    #                      velangular = 0, kickspeedx = 1, kickspeedz = 0,
+    #                      veltangent = 0, velnormal = 1, spinner = 0,
+    #                      wheelsspeed = False)
+    
+    robot1 : Robot = vision.get_robot(code)
+    # Navigation test
+
+    #radio.navigate_robot(robot1, id = 0, isteamyellow = 0,
+    #                    x_target = 0, y_target = 0)
+
+    camino=[(-3,1),(-3,2),(-2,2.3),(-1,2),(-1,1),(-2,0.7)]
+    while(1):
+        radio.path_navigate_robot(robot1,camino, id = 0, isteamyellow = 0)
+
+    #
     #path_planning : PathPlanning = PathPlanning(vision)
     #path : tuple[float, float] = path_planning.get_path( (robot.posx,robot.posy) , (0,0) )
     

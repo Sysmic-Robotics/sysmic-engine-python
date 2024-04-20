@@ -58,7 +58,7 @@ class AlgoCommander:
         finally:
             pass
             
-    def send_route(self, robot_id : int, is_blue_team : bool, new_route : tuple[float,float]):
+    def send_route(self, robot_id : int, is_blue_team : bool, new_route : tuple([float,float])):
         wrapper = algo_commander_pb2.WrapperMessage()
         wrapper.commonField = 0
         #Create route

@@ -3,10 +3,13 @@ from proto_compiled.messages_robocup_ssl_detection_pb2 import SSL_DetectionRobot
 from proto_compiled import messages_robocup_ssl_wrapper_pb2 as ssl_wrapper
 from PySide6.QtNetwork import QUdpSocket, QHostAddress
 from PySide6.QtCore import QByteArray
+
+
 import threading, time
+
 #TODO: Ver si es necesario eliminar robots
-ListPackets = list[ssl_wrapper.SSL_WrapperPacket]
-ListRobot = list[Robot]
+ListPackets = list([ssl_wrapper.SSL_WrapperPacket])
+ListRobot = list([Robot])
 
 class Vision:
     _instance = None

@@ -12,7 +12,7 @@ class STP:
         self.vision = vision
         self.algo_commander = algo_commander
 
-    def normalize_2d_vector(self, x,y) -> tuple[float, float]:
+    def normalize_2d_vector(self, x,y) -> tuple([float, float]):
         length = math.sqrt(x**2 + y**2)
         if length != 0:
             normalized_x = x / length
@@ -21,7 +21,7 @@ class STP:
         return 0, 0
 
 
-    def follow_path(self, robot: Robot, path : tuple[float,float]) -> None:
+    def follow_path(self, robot: Robot, path : tuple([float,float])) -> None:
         self.algo_commander.send_route( 0, True, path ) 
         current_goal = path.pop()
         radio = Grsim()
