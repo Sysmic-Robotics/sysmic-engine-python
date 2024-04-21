@@ -3,7 +3,6 @@ __pycache__/
 python-engine/src/classes/__pycache__
 comm
 *.py[cod]
-.vscode/
 
 # C extensions
 *.so
