@@ -22,7 +22,7 @@ https://github.com/RoboCup-SSL/grSim
 
 ### 1.3 Vscode
 
-For the code development we recommend encarecidamente utilizar Vscode code editor, In .vscode folder are the setting to run the engine program and gui program.
+For the code development we strongly recommend use Vscode code editor. In .vscode folder are the setting to run the engine program and gui program.
 
 ## 2 Engine installation
 
@@ -36,7 +36,7 @@ pip install -r requirements.txt
 
 ### 2.1 Running python engine
 
-Now in python-engine folder with the env activated and grsim open, run this command:
+Now on the python-engine folder, with the env activaded and the grsim open, run this command:
 
 ```python3 main.py```
 
