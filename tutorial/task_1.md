@@ -31,3 +31,4 @@ Algunos consejos:
 
 - Si utilizas la biblioteca **keyboard**, es posible que solicite acceso de root. Utiliza sudo -s en la consola para solucionarlo.
 
+4 Con el codigo terminado crea un pull request, recuerda seguir las practicas de la **task_0** 
