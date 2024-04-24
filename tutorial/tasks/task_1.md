@@ -7,6 +7,7 @@ Siguiendo las prácticas vistas en los tutoriales y tareas anteriores, realiza l
 Crear un código que permita mover a un robot utilizando las flechas del teclado en el simulador grsim.
 
 ## Pasos
+Con el GrSim abierto sigue los siguientes pasos:
 
 1 Crea un archivo llamado task_1.py dentro de la carpeta python-engine/src.
 
