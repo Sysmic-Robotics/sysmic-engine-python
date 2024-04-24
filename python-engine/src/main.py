@@ -33,7 +33,6 @@ if __name__ == '__main__':
     radio = Grsim()
     radio.communicate_grsim(id=1, isteamyellow=0, spinner=1, velnormal=2)
     
-    
     # Algo Commander: Visualization system
     algo_commander = AlgoCommander(12345, vision)
     algo_commander_t = threading.Thread(target=algo_commander.update)

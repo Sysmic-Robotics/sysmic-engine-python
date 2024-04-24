@@ -6,9 +6,11 @@ Siguiendo las practicas vista en los tutoriales y tareas anteriores, haz lo sigu
 
 Objetivo:
 
-Crear un codigo que permita mover a un robot  con las flechas del teclado en el simulador grsim
+Crear un codigo que permita mover a un robot con las flechas del teclado en el simulador grsim
 
-1 Crea un archivo task_controles.py dentro de la carpeta python-engine/src
+1 Crea un archivo task_1.py dentro de la carpeta python-engine/src
+
+
 
 
 

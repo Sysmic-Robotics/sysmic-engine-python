@@ -1,4 +1,9 @@
 import keyboard
+from communications.grsim import Grsim
+
+
+radio = Grsim()
+radio.communicate_grsim(id=1, isteamyellow=0, spinner=1, velnormal=2)
 
 
 def move_robot():
@@ -20,3 +25,5 @@ def move_robot():
         break
 
     pass
+
+move_robot()
