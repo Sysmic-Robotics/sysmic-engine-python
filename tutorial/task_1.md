@@ -1,20 +1,20 @@
-## Introduccion - Familiarizacion con el engine
+# Introduccion - Familiarizacion con el engine
 
+Siguiendo las prácticas vistas en los tutoriales y tareas anteriores, realiza lo siguiente:
 
-Siguiendo las practicas vista en los tutoriales y tareas anteriores, haz lo siguiente:
+## Objetivo :
 
+Crear un código que permita mover a un robot utilizando las flechas del teclado en el simulador grsim.
 
-Objetivo:
+## Pasos
 
-Crear un codigo que permita mover a un robot con las flechas del teclado en el simulador grsim
+1 Crea un archivo llamado task_1.py dentro de la carpeta python-engine/src.
 
-1 Crea un archivo task_1.py dentro de la carpeta python-engine/src
-
-2 Importa el modulo grsim utilizando:
+2 Importa el módulo grsim utilizando:
 
 ``` from communications.grsim import Grsim ```
 
-Con el modulo ya importado puedes crear un objeto ```Grsim ``` y utilizar sus metodos para comunicarte con el simulador, por ejemplo:
+Con el módulo importado, puedes crear un objeto ```Grsim``` y utilizar sus métodos para comunicarte con el simulador. Por ejemplo:
 
 ``` 
 radio = Grsim() 
@@ -22,12 +22,12 @@ radio.communicate_grsim(id=1, isteamyellow=0, velnormal=1)
 
 ```
 
-El codigo de arriba hace que el robot 1 del equipo azul se mueva paralelo al eje x. Tambien se puede hacer que se mueva paralelo al eje x con el parametro ```veltangent``` 
+El código anterior hace que el robot 1 del equipo azul se mueva paralelo al eje x. También se puede hacer que se mueva paralelo al eje y con el parámetro ```veltangent```.
 
 
-3 Ahora utilizando una libreria para detectar el input del teclado, de preferencia la libreria ```keyboard```, crea un codigo que permita mover a un robot con las cuatro flechas del teclado.
+3 Ahora, utilizando una biblioteca para detectar la entrada del teclado, preferiblemente la biblioteca **keyboard**, crea un código que permita mover un robot utilizando las cuatro flechas del teclado.
 
-Algunos tips:
+Algunos consejos:
 
-- Si utilizas la libreria keyboard, probablemente te pida acceso root, utiliza ```sudo -s``` en la consola para solucionarlo.
+- Si utilizas la biblioteca **keyboard**, es posible que solicite acceso de root. Utiliza sudo -s en la consola para solucionarlo.
 
