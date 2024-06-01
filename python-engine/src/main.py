@@ -9,6 +9,7 @@ import threading
 import time
 from stp_architecture.stp_manager import STP
 from communications.algo_commander import AlgoCommander
+from path_planning.path_planning import PathPlanning
 
 #TODO: Agregar FPS
 
@@ -31,7 +32,7 @@ if __name__ == '__main__':
 
     # Initialize grsim packets
     radio = Grsim()
-    radio.communicate_grsim(id=1, isteamyellow=0, spinner=1, velnormal=2)
+    radio.communicate_grsim(id=0, isteamyellow=0, spinner=1, velnormal=2)
     
     
     # Algo Commander: Visualization system
