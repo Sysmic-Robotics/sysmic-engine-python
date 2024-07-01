@@ -6,6 +6,12 @@ protoc --cpp_out=. algo_commander.proto
 
 protoc --python_out=. algo_commander.proto
 
+## Dependencies:
+
+``` 
+sudo apt-get install libx11-dev \
+libxrandr-dev libudev-dev libfreetype-dev
+```
 
 CMake >= 3.12
 
