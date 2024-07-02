@@ -17,19 +17,30 @@ class Field{
             midfield_circle.setPosition( config::window_wide/2 - circle_radius ,  config::window_long/2 - circle_radius );
         }
 
+        // Transform robocup coordinates to global window coordinates
+        /*
+        sf::Vector2f transform_to_window(sf::Vector2f original_vec){
+            // transform to window coordinates
+
+            // transform to 
+            return sf::Vector2f(original_vec.x )
+        }*/
+
         void render(sf::RenderWindow* window){
-             sf::Vertex center_line[] =
-            {
-                sf::Vertex(sf::Vector2f(config::window_wide/2, 0)),
-                sf::Vertex(sf::Vector2f(config::window_wide/2, config::window_long)),
-            };
-             sf::Vertex center_line2[] =
-            {
-                sf::Vertex(sf::Vector2f(0, config::window_long/2)),
-                sf::Vertex(sf::Vector2f(config::window_wide, config::window_long/2)),
-            };
-            window->draw(center_line, 2, sf::Lines );
-            window->draw(center_line2 ,2, sf::Lines);
+            // Field Limits
+            sf::RectangleShape field_limit(sf::Vector2f(FIELD_DIMENSIONS::X_MAX, FIELD_DIMENSIONS::Y_MAX));
+            field_limit.setPosition(FIELD_DIMENSIONS::OFFSET_X, FIELD_DIMENSIONS::OFFSET_Y);
+            field_limit.setFillColor(sf::Color::Transparent);
+            field_limit.setOutlineColor(sf::Color::White);
+            field_limit.setOutlineThickness(5.0f);
+            window->draw(field_limit);
+            // inside limit
+            sf::RectangleShape field_limit2(sf::Vector2f(FIELD_DIMENSIONS::X_MAX, FIELD_DIMENSIONS::Y_MAX));
+            field_limit.setPosition(FIELD_DIMENSIONS::OFFSET_X, FIELD_DIMENSIONS::OFFSET_Y);
+            field_limit.setFillColor(sf::Color::Transparent);
+            field_limit.setOutlineColor(sf::Color::White);
+            field_limit.setOutlineThickness(5.0f);
+            window->draw(field_limit);
 
             window->draw(midfield_circle); 
 
