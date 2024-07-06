@@ -9,7 +9,6 @@ interface GameplayProps {
 }
 
 
-
 const Gameplay: React.FC<GameplayProps> = ({ width, height })  =>{
     const robots = [
         {
