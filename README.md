@@ -24,6 +24,8 @@ https://github.com/RoboCup-SSL/grSim
 
 For the code development we strongly recommend use Vscode code editor. The settings to run the engine program and GUI program are located in the .vscode folder.
 
+### 1.4 Python 3.10
+
 ## 2 Engine installation
 
 Setting the virtual environment
