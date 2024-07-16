@@ -31,7 +31,7 @@ For the code development we strongly recommend use Vscode code editor. The setti
 Setting the virtual environment
 ```
 cd python-engine
-python3 -m venv engine-env
+python3.10 -m venv engine-env
 source engine-env/bin/activate
 pip install -r requirements.txt
 ```
