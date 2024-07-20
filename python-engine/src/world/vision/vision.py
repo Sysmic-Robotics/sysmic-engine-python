@@ -51,7 +51,7 @@ class Vision:
 
 
     def update(self, packets: ListPackets):
-        self.reset_confidence()
+        #self.reset_confidence()
         for packet in packets:
             det = packet.detection # paquete con detección desreferenciado
             # Update ball
@@ -69,7 +69,7 @@ class Vision:
             
             self.world.update_world(self.robots_blue, self.robots_yellow, self.ball)
 
-    def reset_confidence(self):
-        self.ball.confidence = .0
-        for robot in self.get_robots():
-            robot.confidence = .0
+    #def reset_confidence(self):
+    #    self.ball.confidence = .0
+    #    for robot in self.get_robots():
+    #        robot.confidence = .0

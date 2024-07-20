@@ -19,8 +19,8 @@ class Robot:
         self.team_id = 0 #0 para amarillo, 1 para azul
 
         #posicion del robot en el campo
-        self.posx = .0 #mm
-        self.posy = .0 #mm
+        self.x = .0 #mm
+        self.y = .0 #mm
         self.orientation = .0 #rad
         #equipo al que pertenece
         

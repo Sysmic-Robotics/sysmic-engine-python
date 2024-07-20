@@ -112,8 +112,3 @@ class RRTAlgorithm:
         x = int(random.uniform(0, self.map.map_w))
         y = int(random.uniform(0, self.map.map_h))
         return x, y         
-         
-
-
-
-    

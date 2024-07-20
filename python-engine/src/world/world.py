@@ -55,14 +55,18 @@ class World(Observer):
 
     def update_robot(self, is_blue : int, id : int, x : float, y : float, orientation : float, confidence : float):
         if(not self.robot_exist(is_blue, id)):
-            print(" Trying to update robot that doenst exist: id: ", id," team: ", is_blue)
+            team = 'yellow'
+            if(is_blue == 1):
+                team = 'blue'
+            print(" Trying to update robot that doenst exist: id: ", id," team: ", team)
             return
         
         robot : Robot = Robot()
         robot.id = id
         robot.team_id = is_blue
-        robot.x = x
-        robot.y = y
+        # Hot fix, por alguna razon las posiciones se estan recibiendo en mm
+        robot.x = x/1000
+        robot.y = y/1000
         robot.orientation = orientation
         robot.confidence = confidence
 
@@ -87,9 +91,9 @@ class World(Observer):
 
     def robot_exist(self, is_blue : int, id : int) -> bool:
         if(is_blue == 1):
-            return id in self.robots_blue.values()
+            return id in self.robots_blue.keys()
         else:
-            return id in self.robots_yellow.values()
+            return id in self.robots_yellow.keys()
     
     # Public function
     def get_robot(self, is_blue : int, id : int) -> Robot:
@@ -99,3 +103,9 @@ class World(Observer):
             return self.robots_blue[id]
         else:
             return self.robots_yellow[id]
+    
+    def get_robots(self) -> list[Robot]:
+        b = list(self.robots_blue.values()) if isinstance(self.robots_blue, dict) else self.robots_blue
+        y = list(self.robots_yellow.values()) if isinstance(self.robots_yellow, dict) else self.robots_yellow
+        f = b + y
+        return f
