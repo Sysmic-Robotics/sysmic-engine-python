@@ -16,13 +16,14 @@ class Robot:
     '''Clase que representa un robot, con sus atributos de posicion y confianza'''
     def __init__(self):
         self.id = 0
+        self.team_id = 0 #0 para amarillo, 1 para azul
+
         #posicion del robot en el campo
         self.posx = .0 #mm
         self.posy = .0 #mm
         self.orientation = .0 #rad
         #equipo al que pertenece
-        self.team_id = 0 #0 para amarillo, 1 para azul
-
+        
         #veracidad de los datos recibidos
         self.confidence = .0
         self.frame_number = .0
