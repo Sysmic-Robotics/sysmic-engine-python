@@ -6,10 +6,10 @@ import math
 class Map:
     def __init__(self, world : World):
         # FIELD DATA
-        self.x_min = -6.0
-        self.x_max = 6.0
-        self.y_min = -4.5
-        self.y_max = 4.5
+        self.x_min = -4.5
+        self.x_max = 4.5
+        self.y_min = -3
+        self.y_max = 3
         self.robots : list[tuple[float, float]] = []
         self.robot_radius = 0.18 # meters
         self.world = world

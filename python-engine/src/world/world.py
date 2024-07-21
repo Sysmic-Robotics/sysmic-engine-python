@@ -36,7 +36,7 @@ class World(Observer):
         for robot in blue:
             self.update_robot(1, robot.robot_id, robot.x, robot.y, robot.orientation, robot.confidence)
         for robot in yellow:
-            self.update_robot(1, robot.robot_id, robot.x, robot.y, robot.orientation, robot.confidence)
+            self.update_robot(0, robot.robot_id, robot.x, robot.y, robot.orientation, robot.confidence)
         # Update ball
         
 

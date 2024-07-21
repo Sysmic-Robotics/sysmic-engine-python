@@ -5,6 +5,7 @@ from proto_compiled.grsim.grSim_Replacement_pb2 import grSim_Replacement, grSim_
 import time
 from PySide6.QtNetwork import QHostAddress, QUdpSocket
 from PySide6.QtCore import QByteArray
+import math
 
 class Grsim:
     _instance = None
@@ -51,10 +52,10 @@ class Grsim:
             self.send_socket.writeDatagram(msg, QHostAddress.SpecialAddress.LocalHost, 20011) 
 
     # dir es con ángulo
-
+    
     def communicate_pos_robot(self, id = 0, yellowteam = 0, 
                         x = 0, y = 0, dir = 0) -> None:
-        
+        dir = math.degrees(dir)
         package = grSim_Packet()
         command = grSim_RobotReplacement()
 
