@@ -15,7 +15,7 @@ class Move:
         self.navigator = navigator
         self.comms = comms 
         self.robot = robot # ("id", is_blue)
-        self.MINIMUM_DISTANCE_SHORT = 0.18 # robot radius in meters
+        self.MINIMUM_DISTANCE_SHORT = 0.09 # robot radius in meters
         self.MINIMUM_DISTANCE_LONG = 0.09
         self.MOVE_SPEED = 2
     

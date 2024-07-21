@@ -8,7 +8,7 @@ class Navigator:
     
     # Return a list of points
     def get_path(self, start : tuple[float, float], goal : tuple[float, float]) -> list[tuple[float, float]]:
-        map : Map = Map(self.world)
+        map : Map = Map(self.world, start)
         rtt : RRTStar = RRTStar(map)
         path = rtt.get_path(start, goal)  
         return path

@@ -12,7 +12,7 @@ class RRTStar:
         # coords, parent
         self.nodes : list[ tuple[tuple[float,float], int]] = []
         self.edges : list[tuple[float,float], tuple[float,float]] = []
-        self.max_step : float = 0.09 # in meters
+        self.max_step : float = 0.1 # in meters
 
     def get_path(self, start : tuple[float, float], goal : tuple[float, float]):
         # Initialize
@@ -82,12 +82,11 @@ class RRTStar:
     
 
     def edge_is_colliding(self, node_a : tuple[float, float], node_b : tuple[float, float]):
-        return False
         for i in range(0, 101):
             u = i / 100
             x = node_a[0] * u + node_b[0] * (1 - u)
             y = node_a[1] * u + node_b[1] * (1 - u)
-            if self.map.is_colliding((x,y)):
+            if self.map.is_colliding( (x,y) ):
                 return True
         return False   
 
