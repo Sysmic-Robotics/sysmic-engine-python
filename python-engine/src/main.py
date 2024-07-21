@@ -13,12 +13,13 @@ if __name__ == '__main__':
     nav : Navigator = Navigator(world)
     comms : CommandSender = CommandSender()
 
-    move : Move = Move( world, nav, comms, (0,1) )
+    move : Move = Move( world, nav, comms, (0,0) )
     radio : Grsim = Grsim()
-    test_angle = 0
-    radio.communicate_pos_robot(0,1, 0, 1 , dir = test_angle)
-    radio.communicate_pos_robot(0,0, 0, -1 , dir = test_angle)
-    radio.communicate_grsim(0, 1, velnormal=5)  
+    test_angle = math.pi/2 + math.pi/4
+    
+    radio.communicate_pos_robot(0,0, -2, 1 , dir = test_angle)
+    #radio.communicate_grsim(0, 0, velnormal=5)  
+    radio.communicate_pos_robot(0,1, 0, -1 , dir = test_angle)
     move.move_to_point((2,0))
 
     ''' 

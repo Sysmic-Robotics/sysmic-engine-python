@@ -21,15 +21,16 @@ class Move:
     def move_to_point(self, point : tuple[float, float]):
         while True:
             robot : Robot = self.world.get_robot(self.robot[1], self.robot[0])
-            dir_vec : tuple[float, float] = robot.x - point[0], robot.y - point[1]
-            dir_vec = normalize_2d_vector(dir_vec)
-            print(robot.x, robot.y)
+            dir_vec : tuple[float, float] = point[0] - robot.x,  point[1] - robot.y
             # To local coords of the robot
-            #dir_vec = rotate_2d_vector(dir_vec, robot.orientation)
+            # Nose porque con negativo funciona si alguien sabe explicar porfavor
+            dir_vec = rotate_2d_vector(dir_vec, -robot.orientation)
+            dir_vec = normalize_2d_vector(dir_vec)
             
+            print("robot orientation: ", math.degrees(robot.orientation))
             self.comms.send_robot_data(id = self.robot[0], is_blue = self.robot[1], 
-                                       velnormal = dir_vec[1]*self.MOVE_SPEED,
-                                       veltangent= dir_vec[0]*self.MOVE_SPEED
+                                       veltangent= dir_vec[0]*self.MOVE_SPEED,
+                                       velnormal = dir_vec[1]*self.MOVE_SPEED
                                        )
             if(self.distance((robot.x,robot.y) , point ) < self.MINIMUM_DISTANCE):
                 break
