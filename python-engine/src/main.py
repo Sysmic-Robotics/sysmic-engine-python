@@ -3,8 +3,26 @@ from world.world import World
 from world.entities import Robot
 import time
 from navigation.navigator import Navigator
+from communications.wrapper import CommandSender
+from stp.move import Move
+import math
 
 if __name__ == '__main__':
+    # Initialize principal components
+    world : World = World(1,1)
+    nav : Navigator = Navigator(world)
+    comms : CommandSender = CommandSender()
+
+    move : Move = Move( world, nav, comms, (0,0) )
+    radio : Grsim = Grsim()
+    test_angle = math.pi/2 + math.pi/4
+    
+    radio.communicate_pos_robot(0,0, -2, 1 , dir = test_angle)
+    #radio.communicate_grsim(0, 0, velnormal=5)  
+    radio.communicate_pos_robot(0,1, 0, -1 , dir = test_angle)
+    move.move_to_point((-3,1))
+
+    ''' 
     # Initialize grsim packets
     radio = Grsim()
     # Por alguna razon grsim no envia packetes sin haber recibido ninguno
@@ -22,3 +40,4 @@ if __name__ == '__main__':
         print("to ", point)
         radio.communicate_pos_robot(id=0, yellowteam=1, x = point[0], y = point[1])
         time.sleep(0.2)
+    '''
