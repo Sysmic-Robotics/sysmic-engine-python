@@ -9,18 +9,19 @@ import math
 
 if __name__ == '__main__':
     # Initialize principal components
-    world : World = World(1,1)
+    world : World = World(6,6)
     nav : Navigator = Navigator(world)
     comms : CommandSender = CommandSender()
 
-    move : Move = Move( world, nav, comms, (0,0) )
+    blue_team = 0
+    robot_id = 0
+    time.sleep(2)
+    move : Move = Move( world, nav, comms, (robot_id, blue_team) )
     radio : Grsim = Grsim()
     test_angle = math.pi/2 + math.pi/4
     
-    radio.communicate_pos_robot(0,0, -2, 1 , dir = test_angle)
-    #radio.communicate_grsim(0, 0, velnormal=5)  
-    radio.communicate_pos_robot(0,1, 0, -1 , dir = test_angle)
-    move.move_to_point((-3,1))
+    radio.communicate_pos_robot(robot_id, 1 - blue_team, -2, 1.336 , dir = test_angle)
+    move.move_to_point((0.4,-1))
 
     ''' 
     # Initialize grsim packets

@@ -16,7 +16,7 @@ class Robot:
     '''Clase que representa un robot, con sus atributos de posicion y confianza'''
     def __init__(self):
         self.id = 0
-        self.team_id = 0 #0 para amarillo, 1 para azul
+        self.is_blue = 0 #0 para amarillo, 1 para azul
 
         #posicion del robot en el campo
         self.x = .0 #mm
