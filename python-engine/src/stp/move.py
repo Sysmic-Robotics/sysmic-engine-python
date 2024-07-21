@@ -36,15 +36,15 @@ class Move:
                 break
 
     # Use for long distances
-    def move_to_point(self, point : tuple[float, float]):
+    def move_to_point(self, goal : tuple[float, float]):
         while True:
             robot : Robot = self.world.get_robot(self.robot[1], self.robot[0])
-            path = self.navigator.get_path((robot.x, robot.y), point)
+            path = self.navigator.get_path((robot.x, robot.y), goal)
             # Two points minimum (start, goal)
             if len(path) < 2:
                 break
             nearest_point = path[1]
-            if self.distance((robot.x,robot.y) , point ) < self.MINIMUM_DISTANCE_LONG:
+            if self.distance((robot.x,robot.y) , goal ) < self.MINIMUM_DISTANCE_LONG:
                 break
             
             #Waits to reach the nearest point
