@@ -12,7 +12,7 @@ class RRTStar:
         # coords, parent
         self.nodes : list[ tuple[tuple[float,float], int]] = []
         self.edges : list[tuple[float,float], tuple[float,float]] = []
-        self.max_step : float = 0.2 # in meters
+        self.max_step : float = 0.09 # in meters
 
     def get_path(self, start : tuple[float, float], goal : tuple[float, float]):
         # Initialize
@@ -76,12 +76,13 @@ class RRTStar:
         self.edges.append( (nearest_node, new_node) ) 
         self.nodes.append( (new_node, nearest_node_i) )
 
-        if self.distance(self.goal, new_node) < 20:
+        if self.distance(self.goal, new_node) < self.max_step:
             return True
         return False
     
 
     def edge_is_colliding(self, node_a : tuple[float, float], node_b : tuple[float, float]):
+        return False
         for i in range(0, 101):
             u = i / 100
             x = node_a[0] * u + node_b[0] * (1 - u)
@@ -109,8 +110,8 @@ class RRTStar:
     # Create new node between two nodes
     def step(self, from_node : tuple[float, float], to_node : tuple[float, float]): 
         # Angle of vector (to_node - from_node)       
-        dir_vec : tuple[float, float] = (to_node[1] - from_node[1],
-                               to_node[0] - from_node[0])
+        dir_vec : tuple[float, float] = (to_node[0] - from_node[0],
+                               to_node[1] - from_node[1])
         angle = math.atan2(dir_vec[1], dir_vec[0])
         x = from_node[0] + self.max_step * math.cos(angle)
         y = from_node[1] + self.max_step * math.sin(angle)

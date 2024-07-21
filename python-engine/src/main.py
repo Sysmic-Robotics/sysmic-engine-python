@@ -17,7 +17,8 @@ if __name__ == '__main__':
     test_path = nav.get_path((robot.x, robot.y), (1.5,-3))
     print("robot pos: ", robot.x, robot.y)
     # follow the path
+    print("path to follow: ", test_path)
     for point in test_path:
         print("to ", point)
-        radio.communicate_pos_robot(id=0, yellowteam=0, x = point[0], y = point[1])
+        radio.communicate_pos_robot(id=0, yellowteam=1, x = point[0], y = point[1])
         time.sleep(0.2)
