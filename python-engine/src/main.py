@@ -20,7 +20,7 @@ if __name__ == '__main__':
     radio.communicate_pos_robot(0,0, -2, 1 , dir = test_angle)
     #radio.communicate_grsim(0, 0, velnormal=5)  
     radio.communicate_pos_robot(0,1, 0, -1 , dir = test_angle)
-    move.move_to_point((2,0))
+    move.move_to_point((-3,1))
 
     ''' 
     # Initialize grsim packets
