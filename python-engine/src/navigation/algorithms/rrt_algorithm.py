@@ -4,7 +4,7 @@ import random
 
 # Explanation: https://www.youtube.com/watch?v=Oo61tjNJHCk
 
-class RRTStar:
+class RRT:
     def __init__(self, map : Map):
         self.map = map
         self.start = (0.0, 0.0)
