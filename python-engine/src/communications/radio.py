@@ -1,7 +1,8 @@
 import threading
 import time
 import serial
-import constants
+import configparser
+from pathlib import Path
 import numpy as np
 
 class Radio:
@@ -28,7 +29,15 @@ class Radio:
                     "r": rotational speed in rad/s}
         '''
         # se enlaza al puerto serial de la base station
-        self.serial_port = serial.Serial(port= constants.SERIAL_PORT, baudrate=constants.BAUDRATE, timeout=constants.TIMEOUT)
+        config = configparser.ConfigParser()
+        config_path = Path(__file__).parent.parent / 'config.ini'
+        config.read(config_path)
+
+        Serial_Port = config.get('Network', 'Serial_Port')
+        BaudRate = config.getint('Network', 'BaudRate')
+        Timeout = config.getint('Network', 'Timeout')
+
+        self.serial_port = serial.Serial(port= Serial_Port, baudrate=BaudRate, timeout=Timeout)
         if not self.serial_port.is_open:
             raise ValueError("No se pudo abrir el puerto serial")
 
