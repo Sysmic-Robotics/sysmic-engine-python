@@ -33,3 +33,22 @@ def rotate_2d_vector(vector : tuple[float, float], angle : float)-> tuple[float,
     x_new = cos_theta * x - sin_theta * y
     y_new = sin_theta * x + cos_theta * y
     return (x_new, y_new)
+
+def dot_product_2d(vector1 : tuple[float, float], vector2 : tuple[float, float]) -> float:
+    """
+    Calculate the dot product of two 2D vectors represented as tuples.
+
+    Parameters:
+    vector1 (tuple): First 2D vector (x1, y1).
+    vector2 (tuple): Second 2D vector (x2, y2).
+
+    Returns:
+    float: Dot product of the two vectors.
+    """
+
+    # Calculate dot product
+    dot_product_result = vector1[0] * vector2[0] + vector1[1] * vector2[1]
+    return dot_product_result
+    
+def euclidian_distance(point_a : tuple[float, float], point_b : tuple[float, float]) -> float:
+    return math.sqrt((point_a[0] - point_b[0])**2 + (point_a[1] - point_b[1])**2)

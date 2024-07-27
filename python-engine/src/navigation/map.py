@@ -23,6 +23,7 @@ class Map:
             distance = math.sqrt( (self.discard_point[0] - robot.x)**2 + (self.discard_point[1] - robot.y)**2 )
             if distance > self.robot_radius:
                 self.robots.append( (robot.x, robot.y) )
+        
 
     def is_colliding(self, point : tuple[float, float]) -> bool:
         for robot in self.robots:

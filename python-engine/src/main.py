@@ -13,14 +13,17 @@ if __name__ == '__main__':
     nav : Navigator = Navigator(world)
     comms : CommandSender = CommandSender()
 
-    blue_team = 0
+    is_blue = 0
     robot_id = 0
-    time.sleep(2)
-    move : Move = Move( world, nav, comms, (robot_id, blue_team) )
+    time.sleep(1)
+    move : Move = Move( world, nav, comms, (robot_id, is_blue) )
     radio : Grsim = Grsim()
     test_angle = math.pi/2 + math.pi/4
     
-    radio.communicate_pos_robot(robot_id, 1 - blue_team, -2, 1.336 , dir = test_angle)
+    radio.communicate_pos_robot(robot_id, 1 - is_blue, 1,1, dir = test_angle)
+    time.sleep(1)
+    robot : Robot = world.get_robot(is_blue, robot_id)
+    print("Robot pos: " , robot.x, robot.y )
     move.move_to_point((0.4,-1))
 
     ''' 
