@@ -15,7 +15,11 @@ class CommandSender:
                           wheelsspeed = False) -> None:
         if COMMUNICATION_MODE == 1:
             isteamyellow = 1 - is_blue
-            self.grsim.communicate_grsim(id, isteamyellow, velangular, 
-                                         kickspeedx, kickspeedz, veltangent, velnormal, spinner,
-                                         wheelsspeed)     
+            self.grsim.communicate_grsim(id = id,isteamyellow= isteamyellow, velangular= velangular, 
+                                         kickspeedx=kickspeedx, kickspeedz=kickspeedz, veltangent=veltangent, 
+                                         velnormal= velnormal,spinner= spinner,
+                                         wheelsspeed=wheelsspeed)     
+            
+            
+            
     

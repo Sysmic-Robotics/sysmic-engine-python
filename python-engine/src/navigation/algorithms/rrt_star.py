@@ -12,7 +12,7 @@ class RRTStar:
         # coords, parent
         self.nodes : list[ tuple[tuple[float,float], int]] = []
         self.edges : list[tuple[float,float], tuple[float,float]] = []
-        self.max_step : float = 0.1 # in meters
+        self.max_step : float = 0.4 # in meters
 
     def get_path(self, start : tuple[float, float], goal : tuple[float, float]):
         # Initialize
