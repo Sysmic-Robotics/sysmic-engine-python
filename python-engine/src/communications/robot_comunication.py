@@ -1,7 +1,8 @@
 
 import pickle
 import numpy as np
-import constants
+import configparser
+from pathlib import Path
 import serial
 import serial.tools.list_ports
 
@@ -13,7 +14,15 @@ def list_serial_ports():
 
 class USBSerial:
     def __init__(self):
-        self.serial_port = serial.Serial(port= constants.SERIAL_PORT, baudrate=constants.BAUDRATE, timeout=constants.TIMEOUT)
+        config = configparser.ConfigParser()
+        config_path = Path(__file__).parent.parent / 'config.ini'
+        config.read(config_path)
+
+        Serial_Port = config.get('Network', 'Serial_Port')
+        BaudRate = config.getint('Network', 'BaudRate')
+        Timeout = config.getint('Network', 'Timeout')
+
+        self.serial_port = serial.Serial(port= Serial_Port, baudrate=BaudRate, timeout=Timeout)
         if not self.serial_port.is_open:
             raise ValueError("No se pudo abrir el puerto serial")
         else:
