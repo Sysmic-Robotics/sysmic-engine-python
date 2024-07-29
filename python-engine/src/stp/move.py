@@ -37,22 +37,29 @@ class Move:
         path = self.navigator.get_path((robot.x, robot.y), goal)
        
         next_point = robot.x, robot.y
-        while True:
-            if len(path) == 0:
-                break
+        while next_point != None:
             # Update robot
+            self.motion_to_point(robot, next_point)
             robot = self.world.get_robot(self.robot[1], self.robot[0])
             # Pass to next point if the robot is nearest enough
             if euclidian_distance((robot.x,robot.y), next_point) < self.MINIMUM_DISTANCE_LONG:
-                next_point = path.pop(0)
-            # Or pass to the next point if the current_point is already passed
-            if len(path) > 1:
-                next_point_2 = path[1]
-                path_dir = normalize_2d_vector( (next_point_2[0] - next_point[0], next_point_2[1] - next_point[1]) )
-                motion_dir = normalize_2d_vector( (next_point[0] - robot.x, next_point[1] - robot.y)  )
-                if dot_product_2d(path_dir, motion_dir) < 0:
+                if len(path) > 0:
                     next_point = path.pop(0)
-            self.motion_to_point(robot, next_point)
+                else:
+                    next_point = None
+            # Or pass to the next point if the current_point is already passed
+            elif len(path) > 1:
+                next_point_2 = path[1]
+                # Direccion del siguiente punto
+                path_dir = normalize_2d_vector( (next_point_2[0] - next_point[0], next_point_2[1] - next_point[1]) )
+                # Para donde se debe mover el robot
+                motion_dir = normalize_2d_vector( (next_point[0] - robot.x, next_point[1] - robot.y)  )
+                if dot_product_2d(path_dir, motion_dir) < -0.1:
+                    if len(path) > 0:
+                        next_point = path.pop(0)
+                    else:
+                        next_point = None
+            
         print("Move to point finalized")
             
     
