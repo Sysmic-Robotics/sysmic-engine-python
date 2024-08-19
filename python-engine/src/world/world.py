@@ -9,14 +9,14 @@ import threading
 from world.entities import Robot, Ball
 from world.vision.vision import Vision
 from proto_compiled.messages_robocup_ssl_detection_pb2 import SSL_DetectionRobot, SSL_DetectionBall
-from utility.observer import Observer
+from utility.object import Object
 
-class World(Observer):
+class World(Object):
     def __init__(self, n_blues : int, n_yellow : int) -> None:
         self.robots_blue : dict[Robot] = {}
         self.robots_yellow : dict[Robot] = {}
         # Init vision
-        self.vision : Vision = Vision("224.5.23.2", 10020, self)
+        self.vision : Vision = Vision("224.5.23.2", 10020)
         vision_t = threading.Thread(target=self.vision.loop)
         vision_t.start()
         
@@ -31,14 +31,16 @@ class World(Observer):
         print(" Blue team size ", len(self.robots_blue.keys()))
         print(" Yellow team size ", len(self.robots_yellow.keys()))
 
-    def update_world(self, blue : list[SSL_DetectionRobot], yellow : list[SSL_DetectionRobot], ball : SSL_DetectionBall):
-        # Update robots
+    def _process(self, dt):
+        # Update world
+        blue = self.vision.get_robots_blue()
         for robot in blue:
             self.update_robot(1, robot.robot_id, robot.x, robot.y, robot.orientation, robot.confidence)
+        
+        yellow = self.vision.get_robots_yellow()
         for robot in yellow:
             self.update_robot(0, robot.robot_id, robot.x, robot.y, robot.orientation, robot.confidence)
         # Update ball
-        
 
     # Create a robot from raw data
     def create_robot(self, is_blue : int) -> Robot:
