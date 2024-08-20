@@ -15,7 +15,6 @@ class TrapezoidProfile:
             velocities = self.trapezoidal_trajectory_2d(segment)
             # Append the velocities to the trajectory array
             trajectory = np.concatenate((trajectory, velocities), axis=0)
-        print(trajectory)
         return trajectory
         
 

@@ -1,4 +1,4 @@
-from navigation.map import Map
+from motion.geometric_path.algorithms.map import Map
 import math
 import random
 

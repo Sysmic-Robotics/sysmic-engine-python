@@ -1,4 +1,4 @@
-from navigation.trajectory_algorithms.trapezoid_profile import TrapezoidProfile
+from motion.trajectory.trajectory_algorithms.trapezoid_profile import TrapezoidProfile
 
 class TrajectoryPlanning():
     def get_trajectory(self, geometric_path):
