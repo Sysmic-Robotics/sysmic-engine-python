@@ -3,7 +3,7 @@ SERIAL_PORT = '/dev/ttyUSB0'
 BAUDRATE = 115200
 TIMEOUT = 1
 
-COMMUNICATION_MODE = 1 # 0: Cancha, 1: Grsim 
+COMMUNICATION_MODE = 0 # 0: Cancha, 1: Grsim 
 ISTEAMYELLOW = 1
 
 # Grsim

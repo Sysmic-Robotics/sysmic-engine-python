@@ -8,24 +8,20 @@ from stp.move import Move
 import math
 
 def main():
-    # Inicializar los componentes necesarios
-    grsim = Grsim()
-    world = World()
-    navigator = Navigator()
+    # Codigo de prueba de wrapper y radio
     command_sender = CommandSender()
 
-    # Crear un robot y añadirlo al mundo
-    robot = Robot(id=1, team='yellow')
-    world.add_robot(robot)
-
-    # Definir el punto al que queremos mover el robot
-    target_point = (0.5, 0.5)
-
-    # Mover el robot al punto especificado
-    Move.move_to_point(robot, target_point, navigator, command_sender)
+    #Enviar mensaje de prueba a robot 0 por radio
+    command_sender.send_solo_robot_packet(id=0, veltangent=40)
 
     # Esperar un tiempo para observar el movimiento
     time.sleep(5)
+
+    
+    # Enviar mensaje de parada a robot 0 por radio
+    command_sender.send_solo_robot_packet(id=0, veltangent=0)
+
+    
 
 if __name__ == '__main__':
     main()
