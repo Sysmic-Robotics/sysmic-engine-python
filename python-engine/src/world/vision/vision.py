@@ -3,7 +3,6 @@ from proto_compiled.messages_robocup_ssl_detection_pb2 import SSL_DetectionRobot
 from proto_compiled.messages_robocup_ssl_detection_pb2 import SSL_DetectionBall
 from proto_compiled import messages_robocup_ssl_wrapper_pb2 as ssl_wrapper
 from PySide6.QtNetwork import QUdpSocket, QHostAddress
-from utility.observer import Observer
 import threading, time
 
 #TODO: Ver si es necesario eliminar robots
@@ -21,14 +20,13 @@ class Vision:
         return cls._instance
     # ACA NOSE
 
-    def __init__(self, multi_cast_address, port_ssl, world : Observer):
+    def __init__(self, multi_cast_address, port_ssl):
         self.ball : SSL_DetectionBall = SSL_DetectionBall()
         self.robots_blue : list[SSL_DetectionRobot] = []
         self.robots_yellow : list[SSL_DetectionRobot] = []
         self.udp_socket = QUdpSocket()
         self.udp_socket.bind(QHostAddress.AnyIPv4, port_ssl)
         self.udp_socket.joinMulticastGroup(QHostAddress(multi_cast_address))
-        self.world : Observer = world
 
 
     def loop(self):
@@ -67,8 +65,16 @@ class Vision:
             for robot_data in det.robots_yellow:
                 self.robots_yellow.append(robot_data)
             
-            self.world.update_world(self.robots_blue, self.robots_yellow, self.ball)
+            #self.world.update_world(self.robots_blue, self.robots_yellow, self.ball)
 
+    def get_robots_blue(self):
+        return self.robots_blue
+
+    def get_robots_yellow(self):
+        return self.robots_yellow
+
+    def get_ball(self):
+        return self.ball
     #def reset_confidence(self):
     #    self.ball.confidence = .0
     #    for robot in self.get_robots():
