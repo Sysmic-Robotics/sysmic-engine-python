@@ -136,9 +136,10 @@ class Radio:
             time.sleep(.016)
 
     
-    def add_to_robot_queue(self, x,y,r,drb,kick,cb, robot_id)-> None:
+    def add_to_robot_queue(self, robot_id, drb, kick, cb, x, y, r)-> None:
         message = {"x": x, "y": y, "r": r, "drb": drb, "kick": kick, "cb": cb}
-        self.robotQueue[robot_id].append(message)
+        id = "r" + str(robot_id)
+        self.robotQueue[id].append(message)
 
     
     def receive_data(self):
