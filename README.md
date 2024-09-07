@@ -47,36 +47,6 @@ Or, go to the 'Run and Debug' section in VSCode and select the 'Main File' optio
 ![alt text](docs/imgs/runanddebug.png "Title")
 
 
-## 3 GUI installation
-
-### 3.1 Requirements
-
-The GUI depends of the following libraries:
-
-- [CMake](https://cmake.org/)
-
-- [Google protbuf](https://github.com/protocolbuffers/protobuf)
-
-Most of these libraries are already installed if you have successfully run GrSim. 
-
-### 3.2 Compilation
-
-```
-cd algo_commander
-mkdir build
-cd build
-cmake ..
-```
-
-### 3.3 Running the GUI
-
-Inside build folder, run this:
-
-```
-./src/algo_commander
-```
-
-
 
 
 
