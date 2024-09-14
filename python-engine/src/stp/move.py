@@ -26,7 +26,7 @@ class Move:
         # Nose porque con negativo funciona si alguien sabe explicar porfavor
         dir_vec = rotate_2d_vector(dir_vec, -robot.orientation)
         dir_vec = normalize_2d_vector(dir_vec)
-        self.comms.send_robot_data(id = self.robot[0], is_blue = self.robot[1], 
+        self.comms.send_solo_robot_packet(id = self.robot[0], is_blue = self.robot[1], 
                                     veltangent= dir_vec[0]*self.MOVE_SPEED,
                                     velnormal = dir_vec[1]*self.MOVE_SPEED
                                     )
