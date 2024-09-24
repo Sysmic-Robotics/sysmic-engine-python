@@ -2,34 +2,44 @@ from communications.grsim import Grsim
 from world.world import World
 from world.entities import Robot
 import time
+from communications.wrapper import CommandSender
 import math
-
 from motion.motion import Motion
+from world.vision.vision import Vision
+import threading
+
+def wait_for_grsim():
+    radio : Grsim = Grsim()
+    radio.communicate_pos_robot(0,0 ,1,0)
+    robot : Robot = world.get_robot(1,0)
+    while True:
+        #radio.communicate_pos_robot(0,0 ,1,0)
+        robot = world.get_robot(1,0)
+        radio.communicate_grsim(0,0,5)
+        print("Robot pos: ", robot.x, robot.y)
+        if robot.x != 0:
+            print("Robot pos: ", robot.x, robot.y)
+            return
+        
 
 if __name__ == '__main__':
-    
-    # Initialize essentials components
     world : World = World(1,1)
-    
-    # Main loop
-    last_time = time.time()
-    running = True
-    time.sleep(2)
+    # Init vision
+    vision : Vision = Vision("224.5.23.2", 10020, world)
+    vision_t = threading.Thread(target= vision.loop)
+    vision_t.start()
 
-    radio : Grsim = Grsim()
-    
-    motion : Motion = Motion(0,1,world)
+    time.sleep(2)
+    wait_for_grsim()
+    #time.sleep(2)
+    motion : Motion = Motion(0, 1, world)
+    running = True
+    print("Running...")
+    last_time = time.time()
     while running:
         # Calculate delta time
         current_time = time.time()
         delta_time = current_time - last_time
-        if delta_time > 0.016:
-            print("LOW 60 FPS!")
         last_time = current_time
-
-        world._process(delta_time)
-
+        motion.move_linear((-1.500, 0.01), delta_time)
         
-        motion.move_linear([0,0], delta_time)
-
-        #radio.communicate_grsim(0, 0, veltangent = 5)

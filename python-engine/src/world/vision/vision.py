@@ -4,6 +4,7 @@ from proto_compiled.messages_robocup_ssl_detection_pb2 import SSL_DetectionBall
 from proto_compiled import messages_robocup_ssl_wrapper_pb2 as ssl_wrapper
 from PySide6.QtNetwork import QUdpSocket, QHostAddress
 import threading, time
+from world.world import World
 
 #TODO: Ver si es necesario eliminar robots
 ListPackets = list[ssl_wrapper.SSL_WrapperPacket]
@@ -20,7 +21,8 @@ class Vision:
         return cls._instance
     # ACA NOSE
 
-    def __init__(self, multi_cast_address, port_ssl):
+    def __init__(self, multi_cast_address, port_ssl, world : World):
+        self.world = world
         self.ball : SSL_DetectionBall = SSL_DetectionBall()
         self.robots_blue : list[SSL_DetectionRobot] = []
         self.robots_yellow : list[SSL_DetectionRobot] = []
@@ -65,7 +67,14 @@ class Vision:
             for robot_data in det.robots_yellow:
                 self.robots_yellow.append(robot_data)
             
-            #self.world.update_world(self.robots_blue, self.robots_yellow, self.ball)
+            self.update_world(self.robots_blue, self.robots_yellow, self.ball)
+    
+    def update_world(self, blue, yellow, ball):
+        for robot in blue:
+            self.world.update_robot(1, robot.robot_id, robot.x, robot.y, robot.orientation, robot.confidence)
+        
+        for robot in yellow:
+            self.world.update_robot(0, robot.robot_id, robot.x, robot.y, robot.orientation, robot.confidence)
 
     def get_robots_blue(self):
         return self.robots_blue
@@ -75,6 +84,7 @@ class Vision:
 
     def get_ball(self):
         return self.ball
+
     #def reset_confidence(self):
     #    self.ball.confidence = .0
     #    for robot in self.get_robots():

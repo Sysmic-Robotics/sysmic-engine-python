@@ -32,11 +32,8 @@ class Motion(Object):
         task = [point, 'move_linear']
         if not self.is_already_planned(task):
             # Then plan the new task
-            
-            print("Robo pos: ", robot.x, robot.y)
             path = PathPlanning(self.world).linear_path([robot.x, robot.y], point)
-            trajectory = TrajectoryPlanning().get_trajectory([[robot.x, robot.y], point])
-            print(trajectory)
+            trajectory = TrajectoryPlanning().get_trajectory(path)
             self.current_control = FollowTrajectory(self.id, self.is_blue, trajectory)
             self.current_task = task
         # Execute
