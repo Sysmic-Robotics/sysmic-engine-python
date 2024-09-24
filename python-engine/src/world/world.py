@@ -8,9 +8,8 @@
 
 from world.entities import Robot, Ball
 from proto_compiled.messages_robocup_ssl_detection_pb2 import SSL_DetectionRobot, SSL_DetectionBall
-from utility.object import Object
 
-class World(Object):
+class World():
     def __init__(self, n_blues : int, n_yellow : int) -> None:
         self.robots_blue : dict[Robot] = {}
         self.robots_yellow : dict[Robot] = {}
